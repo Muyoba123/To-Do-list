@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-10">
+        <h1 class="text-3xl font-bold text-center mb-10">Task Manager</h1>
+
+        <!-- Task Input, Category Selector, and Add Button -->
+        <div class="flex justify-center mb-5 space-x-3">
+            <input type="text" id="taskInput" class="w-1/3 p-2 border border-gray-300 rounded-lg" placeholder="Enter a new task">
+            <select id="categorySelect" class="p-2 border border-gray-300 rounded-lg">
+                <option value="school">School</option>
+                <option value="work">Work</option>
+                <option value="projects">Projects</option>
+                <option value="others">Others</option>
+            </select>
+            <button id="addTaskBtn" class="p-2 bg-blue-500 text-white rounded-lg">Add Task</button>
+        </div>
+
+        <!-- Category Headers and Task List Containers -->
+        <div id="taskContainer" class="w-1/2 mx-auto space-y-6">
+            <div id="schoolTasks">
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">School</h2>
+                <ul class="taskList space-y-3"></ul>
+            </div>
+            <div id="workTasks">
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">Work</h2>
+                <ul class="taskList space-y-3"></ul>
+            </div>
+            <div id="projectsTasks">
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">Projects</h2>
+                <ul class="taskList space-y-3"></ul>
+            </div>
+            <div id="othersTasks">
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">Others</h2>
+                <ul class="taskList space-y-3"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Task Functionality -->
+    <script>
+        const taskInput = document.getElementById("taskInput");
+        const categorySelect = document.getElementById("categorySelect");
+        const addTaskBtn = document.getElementById("addTaskBtn");
+        let isEditing = false;
+        let currentTask = null;
+
+        // Add Task
+        addTaskBtn.addEventListener("click", () => {
+            const taskText = taskInput.value.trim();
+            const category = categorySelect.value;
+
+            if (taskText) {
+                if (isEditing) {
+                    // Update task
+                    currentTask.querySelector(".task-text").innerText = taskText;
+                    resetForm();
+                } else {
+                    // Create new task under selected category
+                    addTask(taskText, category);
+                }
+            }
+        });
+
+        // Function to Add Task
+        function addTask(taskText, category) {
+            const taskItem = document.createElement("li");
+            taskItem.className = "flex justify-between items-center p-4 bg-white shadow rounded-lg";
+
+            taskItem.innerHTML = `
+                <span class="task-text">${taskText}</span>
+                <div class="flex space-x-3">
+                    <button class="complete-btn px-2 py-1 text-green-600 hover:text-green-800">Complete</button>
+                    <button class="edit-btn px-2 py-1 text-blue-600 hover:text-blue-800">Edit</button>
+                    <button class="delete-btn px-2 py-1 text-red-600 hover:text-red-800">Delete</button>
+                </div>
+            `;
+
+            // Mark as Complete
+            taskItem.querySelector(".complete-btn").addEventListener("click", () => {
+                taskItem.classList.toggle("bg-gray-200");
+                taskItem.querySelector(".task-text").classList.toggle("line-through");
+            });
+
+            // Edit Task
+            taskItem.querySelector(".edit-btn").addEventListener("click", () => {
+                taskInput.value = taskText;
+                taskInput.focus();
+                isEditing = true;
+                currentTask = taskItem;
+            });
+
+            // Delete Task
+            taskItem.querySelector(".delete-btn").addEventListener("click", () => {
+                taskItem.remove();
+                resetForm();
+            });
+
+            // Append task to the correct category list
+            document.getElementById(`${category}Tasks`).querySelector(".taskList").appendChild(taskItem);
+            resetForm();
+        }
+
+        // Reset Form after Update or Delete
+        function resetForm() {
+            taskInput.value = "";
+            isEditing = false;
+            currentTask = null;
+        }
+
+        // Cancel Editing
+        taskInput.addEventListener("keyup", (event) => {
+            if (event.key === "Escape") {
+                resetForm();
+            }
+        });
+    </script>
+</body>
+</html>

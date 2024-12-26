@@ -1,0 +1,83 @@
+/* Style for the navigation bar */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #7978b7;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Aligns the links to the right */
+}
+
+li {
+  float: none;
+  margin-right: 20px; /* Adds space between list items */
+}
+
+a {
+  display: block;
+  padding: 20px;
+  color: antiquewhite;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none; /* Removes underline */
+}
+
+/* Button styling */
+button {
+  background-color: rgb(230, 138, 138);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: medium;
+  cursor: pointer;
+}
+
+button a {
+  color: antiquewhite;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Main content styling */
+body {
+  background-color: blanchedalmond;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 60px;
+  margin: 40px;
+}
+
+p {
+  margin: 20px 40px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  margin: 20px 40px;
+  width: 400px;
+  height: 350px;
+  border-radius:190px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Flexbox container for main content */
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px;
+}
+
+.content img {
+  margin-left: 50px;
+}
+
